@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mere Dil Ki Baat ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --maroon-bg: #2e0101;
+            --dark-maroon: #1a0000;
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --soft-pink: #ffc0cb;
+            --pink-glow: rgba(255, 192, 203, 0.6);
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            background-color: var(--maroon-bg);
+            background: radial-gradient(circle at 30% 20%, #3a0808 0%, var(--dark-maroon) 100%);
+            color: var(--white);
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .floating-element {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            animation: float-up linear forwards;
+            opacity: 0;
+            z-index: 0;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.6); opacity: 0; }
+            15% { opacity: 0.7; }
+            85% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) rotate(720deg) scale(1.3); opacity: 0; }
+        }
+        .app-container {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 16px;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scene {
+            display: none;
+            width: 100%;
+            padding: 12px 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeSlide 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .scene.active { display: flex; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: clamp(24px, 5vw, 44px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,215,0,0.1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px solid var(--gold);
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255,215,0,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.2rem, 7vw, 3.8rem);
+            color: var(--gold);
+            text-shadow: 0 0 30px var(--gold-glow), 0 4px 12px rgba(0,0,0,0.5);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .emotional-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1rem, 3.5vw, 1.35rem);
+            line-height: 1.8;
+            max-width: 100%;
+            margin-bottom: 20px;
+            color: #f5e1d0;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+            white-space: pre-wrap;
+            text-align: left;
+            padding: 0 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 14px 32px;
+            font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 60px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn-gold {
+            background: linear-gradient(145deg, #d4af37, #f0d060);
+            color: var(--dark-maroon);
+            border: 1px solid var(--gold);
+        }
+        .btn-gold:hover, .btn-gold:active {
+            box-shadow: 0 0 40px var(--gold-glow), 0 6px 24px rgba(0,0,0,0.4);
+        }
+        .btn-pink {
+            background: linear-gradient(145deg, #ff69b4, #ff9ecb);
+            color: var(--dark-maroon);
+            border: 1px solid var(--soft-pink);
+        }
+        .btn-pink:hover, .btn-pink:active {
+            box-shadow: 0 0 40px var(--pink-glow), 0 6px 24px rgba(0,0,0,0.4);
+        }
+        .image-frame {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1/1;
+            margin: 0 auto 18px;
+            border-radius: 28px;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--gold), #b8962e);
+            box-shadow: 0 0 50px var(--pink-glow), 0 0 80px rgba(255,192,203,0.15);
+            transition: transform 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .image-frame:hover { transform: rotate(1.5deg) scale(1.01); }
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            background: var(--dark-maroon);
+            display: block;
+        }
+        .placeholder-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            text-align: center;
+            color: var(--dark-maroon);
+            background: linear-gradient(135deg, #ffd0d5, #ffd700);
+            border-radius: 20px;
+            padding: 16px;
+        }
+        .promise-list {
+            list-style: none;
+            text-align: left;
+            margin: 14px 0 8px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .promise-item {
+            opacity: 0;
+            transform: translateX(-16px);
+            margin-bottom: 12px;
+            font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255,215,0,0.04);
+            padding: 10px 16px;
+            border-radius: 40px;
+            border-left: 3px solid var(--gold);
+        }
+        .promise-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            position: relative;
+            width: 100%;
+            min-height: 70px;
+        }
+        #noBtn {
+            position: relative;
+            transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+            touch-action: none;
+            min-width: 100px;
+        }
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 2px;
+            animation: confetti-fall linear forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
+        }
+        .final-sub {
+            font-family: 'Dancing Script', cursive;
+            color: var(--gold);
+            font-size: clamp(1.6rem, 5vw, 2.6rem);
+            text-shadow: 0 0 30px var(--gold-glow);
+            margin-top: 10px;
+        }
+        @media (max-width: 480px) {
+            .app-container { padding: 10px; }
+            .glass-card { padding: 20px 16px; border-radius: 32px; }
+            .image-frame { max-width: 260px; padding: 8px; }
+            .btn-container { gap: 14px; }
+            #noBtn { min-width: 80px; padding: 12px 20px; }
+            .btn { padding: 12px 24px; }
+            .promise-item { padding: 8px 12px; }
+        }
+        @media (max-width: 360px) {
+            .glass-card { padding: 16px 12px; }
+            .image-frame { max-width: 200px; }
+            .btn { padding: 10px 16px; font-size: 0.8rem; }
+            #noBtn { min-width: 70px; padding: 10px 14px; font-size: 0.8rem; }
+        }
+        @media (min-width: 768px) {
+            .app-container { max-width: 560px; padding: 24px; }
+            .image-frame { max-width: 340px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg" id="ambientBg"></div>
+
+    <div class="app-container">
+        <!-- Scene 1 -->
+        <section id="scene1" class="scene active">
+            <div class="glass-card">
+                <h1>Mere Dil Ki Baat ❤️</h1>
+                <p class="emotional-text" style="text-align:center;">Please isse pure pyaar se padhna...</p>
+                <button class="btn btn-gold" onclick="nextScene(2)">Start The Magic ❤️</button>
+            </div>
+        </section>
+
+        <!-- Scene 2: Apology -->
+        <section id="scene2" class="scene">
+            <div class="glass-card">
+                <div id="text2" class="emotional-text"></div>
+                <button id="btn2" class="btn btn-pink" style="display:none;" onclick="nextScene(3)">Mujhe Aur Kehna Hai 🥺</button>
+            </div>
+        </section>
+
+        <!-- Scene 3: Realization -->
+        <section id="scene3" class="scene">
+            <div class="glass-card">
+                <div id="text3" class="emotional-text"></div>
+                <button id="btn3" class="btn btn-gold" style="display:none;" onclick="nextScene(4)">Ek Cheez Dekho ❤️</button>
+            </div>
+        </section>
+
+        <!-- Scene 4: Photo -->
+        <section id="scene4" class="scene">
+            <div class="glass-card">
+                <div class="image-frame" id="imageFrame">
+                    <img id="myQueenImg" src="gf.jpeg" alt="Meri Jaan" onerror="handleImgError(this)">
+                </div>
+                <p class="emotional-text" style="text-align:center;font-style:italic;">"Tumhari muskurahat meri duniya roshan kar deti hai ❤️"</p>
+                <button class="btn btn-pink" onclick="nextScene(5)">Mere Vaade 💍</button>
+            </div>
+        </section>
+
+        <!-- Scene 5: Promises -->
+        <section id="scene5" class="scene">
+            <div class="glass-card">
+                <h1 style="font-size:clamp(2rem,6vw,3rem);">Mere Vaade 💍</h1>
+                <ul class="promise-list" id="promiseList">
+                    <li class="promise-item">✨ Main hamesha tumhara saath dunga</li>
+                    <li class="promise-item">✨ Tumhari har baat dil se sununga</li>
+                    <li class="promise-item">✨ Tumhe kabhi akela mehsoos nahi hone dunga</li>
+                    <li class="promise-item">✨ Har mushkil me tumhare saath khada rahunga</li>
+                    <li class="promise-item">✨ Roz tumse aur zyada pyaar karunga</li>
+                    <li class="promise-item">✨ Tumhari smile ki hifazat karunga</li>
+                    <li class="promise-item">✨ Tumhari respect hamesha karunga</li>
+                    <li class="promise-item">✨ Tumhe kabhi jaan-boojh kar hurt nahi karunga</li>
+                </ul>
+                <button id="btn5" class="btn btn-gold" style="display:none;" onclick="nextScene(6)">Ek Aur Baat ❤️</button>
+            </div>
+        </section>
+
+        <!-- Scene 6: Romantic Lines -->
+        <section id="scene6" class="scene">
+            <div class="glass-card">
+                <div id="text6" class="emotional-text"></div>
+                <button id="btn6" class="btn btn-pink" style="display:none;" onclick="nextScene(7)">Ab Dil Ki Aakhri Baat 🥺</button>
+            </div>
+        </section>
+
+        <!-- Scene 7: Final Question -->
+        <section id="scene7" class="scene">
+            <div class="glass-card">
+                <h1 style="font-size:clamp(2rem,7vw,3.4rem);">Maaf Kar Do Na? 🥺❤️</h1>
+                <p class="emotional-text" style="text-align:center;">Bas ek baar haan keh do...</p>
+                <div class="btn-container" id="btnContainer">
+                    <button class="btn btn-gold" id="yesBtn" onclick="celebrate()">YES ❤️</button>
+                    <button id="noBtn" class="btn btn-pink">NO 💔</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Scene -->
+        <section id="sceneFinal" class="scene">
+            <div class="glass-card">
+                <h1 style="font-size:clamp(2.2rem,8vw,4rem);">I LOVE YOU FOREVER ❤️</h1>
+                <p class="emotional-text" style="text-align:center;">
+                    Thank you meri jaan...<br><br>
+                    Meri zindagi me aane ke liye.<br><br>
+                    Main tumse aaj bhi utna hi pyaar karta hoon,<br>
+                    aur hamesha karta rahunga.<br><br>
+                    Ab ek pyari si smile de do 😊❤️
+                </p>
+                <div class="final-sub">Forever Yours ❤️</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ----- Scene Management -----
+        function nextScene(sceneNum) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            const next = document.getElementById(`scene${sceneNum}`);
+            if (next) {
+                next.classList.add('active');
+                // Re-trigger animation
+                next.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    next.style.animation = 'fadeSlide 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                });
+            }
+
+            if (sceneNum === 2) startTypewriter('text2', getApologyText(), 'btn2');
+            if (sceneNum === 3) startTypewriter('text3', getRealizationText(), 'btn3');
+            if (sceneNum === 5) animatePromises();
+            if (sceneNum === 6) startTypewriter('text6', getRomanticText(), 'btn6');
+        }
+
+        // ----- Text Content -----
+        function getApologyText() {
+            return `Suno jaan...\n\nMujhse galti hui hai aur mujhe uska sach me bahut afsos hai.\n\nMain jaanta hoon ki tum hurt hui ho aur tumhara gussa bilkul sahi hai.\n\nPar tumse baat na hona mujhe andar se tod deta hai.\n\nHar din sirf tumhare baare me sochta hoon.\n\nPlease mujhe maaf kar do... 🥺`;
+        }
+        function getRealizationText() {
+            return `Maine realize kiya hai ki tum meri zindagi ka sabse khoobsurat hissa ho.\n\nTum sirf meri girlfriend nahi ho...\n\nTum meri khushi ho.\nTum meri aadat ho.\nTum meri duniya ho.\n\nTumhare bina sab kuch adhoora lagta hai. ❤️`;
+        }
+        function getRomanticText() {
+            return `💕 Tum meri sabse khoobsurat dua ho\n\n💕 Tum meri har khushi ka reason ho\n\n💕 Tum meri har dhadkan me rehti ho\n\n💕 Tumhare bina sab kuch adhura lagta hai\n\n💕 Main sirf tumhara hoon\n\n💕 Aur hamesha tumhara rahunga...`;
+        }
+
+        // ----- Typewriter -----
+        function startTypewriter(elementId, text, buttonId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerHTML = '';
+            let i = 0;
+            const formatted = text.replace(/\n/g, '<br>');
+            const btn = document.getElementById(buttonId);
+            if (btn) btn.style.display = 'none';
+
+            function type() {
+                if (i < formatted.length) {
+                    if (formatted.charAt(i) === '<') {
+                        let end = formatted.indexOf('>', i);
+                        el.innerHTML += formatted.substring(i, end + 1);
+                        i = end + 1;
+                    } else {
+                        el.innerHTML += formatted.charAt(i);
+                        i++;
+                    }
+                    setTimeout(type, 35);
+                } else {
+                    if (btn) btn.style.display = 'inline-block';
+                }
+            }
+            type();
+        }
+
+        // ----- Promises Animation -----
+        function animatePromises() {
+            const items = document.querySelectorAll('.promise-item');
+            items.forEach((item, idx) => {
+                setTimeout(() => {
+                    item.classList.add('visible');
+                    if (idx === items.length - 1) {
+                        document.getElementById('btn5').style.display = 'inline-block';
+                    }
+                }, idx * 450);
+            });
+        }
+
+        // ----- Image Error Handling -----
+        function handleImgError(img) {
+            const frame = img.parentElement;
+            frame.innerHTML = `<div class="placeholder-img">✨ Meri Pyari<br>Queen's Photo ✨</div>`;
+        }
+
+        // ----- NO Button - Runs Away -----
+        (function setupNoBtn() {
+            const noBtn = document.getElementById('noBtn');
+            if (!noBtn) return;
+
+            function moveNoButton(e) {
+                e.preventDefault();
+                const rect = noBtn.getBoundingClientRect();
+                const viewW = window.innerWidth;
+                const viewH = window.innerHeight;
+                const bw = rect.width || 100;
+                const bh = rect.height || 50;
+                const pad = 12;
+
+                let cx = viewW / 2, cy = viewH / 2;
+                if (e && (e.clientX || e.touches)) {
+                    const ev = e.touches ? e.touches[0] : e;
+                    cx = ev.clientX;
+                    cy = ev.clientY;
+                }
+
+                let dx = cx - (rect.left + bw/2);
+                let dy = cy - (rect.top + bh/2);
+                const len = Math.hypot(dx, dy) || 1;
+                const force = Math.min(140, 90 + 180 / (len + 8));
+                let newX = rect.left - (dx / len) * force;
+                let newY = rect.top - (dy / len) * force;
+
+                newX = Math.max(pad, Math.min(viewW - bw - pad, newX));
+                newY = Math.max(pad, Math.min(viewH - bh - pad, newY));
+
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
+                noBtn.style.transform = 'none';
+                noBtn.style.zIndex = '99999';
+            }
+
+            const events = ['mouseenter', 'touchstart'];
+            events.forEach(ev => {
+                noBtn.addEventListener(ev, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    moveNoButton(e);
+                });
+            });
+
+            // Click also triggers move
+            noBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                moveNoButton(e);
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                const touch = e.touches[0];
+                if (!touch) return;
+                const rect = noBtn.getBoundingClientRect();
+                const pad = 35;
+                if (touch.clientX >= rect.left - pad && touch.clientX <= rect.right + pad &&
+                    touch.clientY >= rect.top - pad && touch.clientY <= rect.bottom + pad) {
+                    e.preventDefault();
+                    moveNoButton(e);
+                }
+            }, { passive: false });
+
+            window.addEventListener('resize', function() {
+                const rect = noBtn.getBoundingClientRect();
+                const viewW = window.innerWidth;
+                const viewH = window.innerHeight;
+                let l = parseFloat(noBtn.style.left) || rect.left;
+                let t = parseFloat(noBtn.style.top) || rect.top;
+                const bw = rect.width || 100;
+                const bh = rect.height || 50;
+                l = Math.max(8, Math.min(viewW - bw - 8, l));
+                t = Math.max(8, Math.min(viewH - bh - 8, t));
+                noBtn.style.left = l + 'px';
+                noBtn.style.top = t + 'px';
+            });
+
+            // Initial position
+            setTimeout(() => {
+                const rect = noBtn.getBoundingClientRect();
+                const viewW = window.innerWidth;
+                const viewH = window.innerHeight;
+                let l = rect.left;
+                let t = rect.top;
+                const bw = rect.width || 100;
+                const bh = rect.height || 50;
+                l = Math.max(8, Math.min(viewW - bw - 8, l));
+                t = Math.max(8, Math.min(viewH - bh - 8, t));
+                if (l !== rect.left || t !== rect.top) {
+                    noBtn.style.position = 'fixed';
+                    noBtn.style.left = l + 'px';
+                    noBtn.style.top = t + 'px';
+                }
+            }, 100);
+        })();
+
+        // ----- Celebration: Confetti & Hearts -----
+        function celebrate() {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            document.getElementById('sceneFinal').classList.add('active');
+
+            for (let i = 0; i < 160; i++) {
+                setTimeout(createConfetti, i * 15);
+            }
+            for (let i = 0; i < 25; i++) {
+                setTimeout(createHeartBurst, i * 100);
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff69b4', '#ffb6c1', '#ff6347', '#7b68ee', '#ff4500', '#ff1493', '#ffd700', '#00ff7f'];
+            const el = document.createElement('div');
+            el.className = 'confetti-piece';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.top = '-10px';
+            el.style.width = (5 + Math.random() * 10) + 'px';
+            el.style.height = (5 + Math.random() * 10) + 'px';
+            el.style.background = colors[Math.floor(Math.random() * colors.length)];
+            el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            el.style.transform = `rotate(${Math.random()*360}deg)`;
+            el.style.animationDuration = (2 + Math.random() * 3.5) + 's';
+            el.style.boxShadow = '0 0 10px rgba(255,215,0,0.3)';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 5500);
+        }
+
+        function createHeartBurst() {
+            const heart = document.createElement('div');
+            heart.textContent = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.fontSize = (20 + Math.random() * 40) + 'px';
+            heart.style.left = (5 + Math.random() * 90) + 'vw';
+            heart.style.top = (5 + Math.random() * 90) + 'vh';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '99999';
+            heart.style.opacity = '1';
+            heart.style.transform = 'scale(0) rotate(0deg)';
+            heart.style.transition = 'all 1.4s cubic-bezier(0.2, 0.9, 0.3, 1.2)';
+            heart.style.textShadow = '0 0 30px rgba(255,0,0,0.6)';
+            document.body.appendChild(heart);
+
+            requestAnimationFrame(() => {
+                heart.style.transform = 'scale(2.8) rotate(30deg)';
+                heart.style.opacity = '0';
+            });
+            setTimeout(() => heart.remove(), 1600);
+        }
+
+        // ----- Ambient Background -----
+        function initAmbientBg() {
+            const bg = document.getElementById('ambientBg');
+            const icons = ['❤️', '🌸', '✨', '💖', '🌹', '⭐', '🌺', '💕', '🦋'];
+
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.className = 'floating-element';
+                el.textContent = icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (12 + Math.random() * 30) + 'px';
+                el.style.animationDuration = (10 + Math.random() * 14) + 's';
+                el.style.opacity = 0.2 + Math.random() * 0.4;
+                bg.appendChild(el);
+                setTimeout(() => el.remove(), 16000);
+            }, 300);
+        }
+
+        window.onload = initAmbientBg;
+    </script>
+</body>
+</html>
